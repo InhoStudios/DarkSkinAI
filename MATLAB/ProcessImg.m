@@ -1,25 +1,10 @@
-A = imread('skinimg.jpg');
-B = balanceImg('skinimg.jpg');
-C = imread('blue-skinimg.jpg');
-D = balanceImg('blue-skinimg.jpg');
-
-imwrite(D, 'export-skinimg.jpg')
-
-montage({A, B, C, D})
-
-A1 = imread('psoriasisdark.jpg');
-B1 = balanceImg('psoriasisdark.jpg');
-C1 = imread('blue-psoriasisdark.jpg');
-D1 = balanceImg('blue-psoriasisdark.jpg');
-
-imwrite(D1, 'export-psoriasisdark.jpg')
-
-montage({A, B, C, D})
-
-A = imread('isic38.jpg');
-B = balanceImg('isic38.jpg');
-
-montage({A, B})
+for i = 0:17
+   fname = strcat('img', string(i), '.jpg');
+   im = imread(fname);
+   im2 = balanceImg(fname);
+   imwrite(im2, strcat('export-', fname));
+   montage({im, im2})
+end
 
 function rgbImage = balanceImg(path)
     rgbImage = imread(path);
