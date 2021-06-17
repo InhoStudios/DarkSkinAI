@@ -1,9 +1,15 @@
 for i = 0:17
    fname = strcat('img', string(i), '.jpg');
-   im = imread(fname);
-   im2 = balanceImg(fname);
-   imwrite(im2, strcat('export-', fname));
-   montage({im, im2})
+   input_im = double(imread(fname));
+    % Grey-Edge
+    mink_norm=5;    % any number between 1 and infinity
+    sigma=2;        % sigma 
+    diff_order=1;   % differentiation order (1 or 2)
+
+    [wR,wG,wB,out4]=general_cc(input_im,diff_order,mink_norm,sigma);
+    figure(5);imshow(uint8(out4));
+    title('Grey-Edge');
+    imwrite(uint8(out4),strcat("ge-", fname))
 end
 
 function rgbImage = balanceImg(path)
