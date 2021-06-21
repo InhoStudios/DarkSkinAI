@@ -28,6 +28,26 @@ function rgbImage = balanceImg(path)
     rgbImage = cat(3, redChannel, greenChannel, blueChannel);
 end
 
+function applyCC(fileName)
+    input_im = double(imread(fileName));
+    
+    [wR,wG,wB,out1]=general_cc(input_im,0,1,0);
+    imwrite(uint8(out4),strcat("gw-", fileName));
+    
+    [wR,wG,wB,out2]=general_cc(input_im,0,-1,0);
+    imwrite(uint8(out4),strcat("mrgb-", fileName));
+    
+    mink_norm=5;    % any number between 1 and infinity
+    [wR,wG,wB,out3]=general_cc(input_im,0,mink_norm,0);
+    imwrite(uint8(out4),strcat("sog-", fileName));
+    
+    mink_norm=5;    % any number between 1 and infinity
+    sigma=2;        % sigma 
+    diff_order=1;   % differentiation order (1 or 2)
+    [wR,wG,wB,out4]=general_cc(input_im,diff_order,mink_norm,sigma);
+    imwrite(uint8(out4),strcat("ge-", fileName));
+end
+    
 function transImg = applyLut(imgPath, lutPath)
     img = imread(imgPath);
     lut = dlmread(lutPath, ' ', 8, 0);
