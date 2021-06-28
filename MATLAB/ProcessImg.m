@@ -1,15 +1,6 @@
 for i = 0:17
    fname = strcat('img', string(i), '.jpg');
-   input_im = double(imread(fname));
-    % Grey-Edge
-    mink_norm=5;    % any number between 1 and infinity
-    sigma=2;        % sigma 
-    diff_order=1;   % differentiation order (1 or 2)
-
-    [wR,wG,wB,out4]=general_cc(input_im,diff_order,mink_norm,sigma);
-    figure(5);imshow(uint8(out4));
-    title('Grey-Edge');
-    imwrite(uint8(out4),strcat("ge-", fname))
+   applyCC(fname);
 end
 
 function rgbImage = balanceImg(path)
@@ -32,14 +23,14 @@ function applyCC(fileName)
     input_im = double(imread(fileName));
     
     [wR,wG,wB,out1]=general_cc(input_im,0,1,0);
-    imwrite(uint8(out4),strcat("gw-", fileName));
+    imwrite(uint8(out1),strcat("gw-", fileName));
     
     [wR,wG,wB,out2]=general_cc(input_im,0,-1,0);
-    imwrite(uint8(out4),strcat("mrgb-", fileName));
+    imwrite(uint8(out2),strcat("mrgb-", fileName));
     
     mink_norm=5;    % any number between 1 and infinity
     [wR,wG,wB,out3]=general_cc(input_im,0,mink_norm,0);
-    imwrite(uint8(out4),strcat("sog-", fileName));
+    imwrite(uint8(out3),strcat("sog-", fileName));
     
     mink_norm=5;    % any number between 1 and infinity
     sigma=2;        % sigma 
