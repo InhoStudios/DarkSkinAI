@@ -1,6 +1,13 @@
-for i = 0:17
-   fname = strcat('img', string(i), '.jpg');
-   applyCC(fname);
+% for i = 0:17
+%    fname = strcat('img', string(i), '.jpg');
+%    applyCC(fname);
+% end
+
+images = dir("images\*.jpg")
+
+for i = 1:numel(images);
+    filename = images(i).name;
+    applyCC(filename);
 end
 
 function rgbImage = balanceImg(path)
