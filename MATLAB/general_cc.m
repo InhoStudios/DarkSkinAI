@@ -33,6 +33,7 @@ if(nargin<2), njet=0; end
 if(nargin<3), mink_norm=1; end
 if(nargin<4), sigma=1; end
 if(nargin<5), mask_im=zeros(size(input_data,1),size(input_data,2)); end
+% sets mask image to be the entire image
 
 % remove all saturated points
 saturation_threshold = 255;

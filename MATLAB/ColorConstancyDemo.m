@@ -5,7 +5,7 @@
 %some example images
 % input_im=double(imread('blue-isic145.jpg'));
 % input_im=double(imread('cow2.jpg'));
-input_im=double(imread('dog3.jpg'));
+input_im=double(imread('export-img0.jpg'));
  
 figure(1);imshow(uint8(input_im));
 title('input image');

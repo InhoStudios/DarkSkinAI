@@ -3,13 +3,25 @@
 %    applyCC(fname);
 % end
 
-images = dir("images\*.jpg")
 
-for i = 1:numel(images);
-    filename = images(i).name;
-    image = imread(filename);
-    appl
+folder = 'images';
+images = dir(fullfile(folder, '\*.jpg'));
+
+for i = 1:numel(images)
+    filename = fullfile(folder, images(i).name);
+    img = imread(filename);
+    p = 5;
+    [wR, wG, wB, out] = shades_of_grey(double(img), p);
+    montage({img, uint8(out)});
 end
+
+% img = imread('img0.jpg');
+%     
+% mink_norm=10;    % any number between 1 and infinity
+% 
+% [wR, wG, wB, out1] = shades_of_grey(double(img), 1);
+% [wR, wG, wB, out2] = shades_of_grey(double(img), 6);
+% montage({uint8(out1), uint8(out2)});
 
 function rgbImage = balanceImg(path)
     rgbImage = imread(path);
@@ -30,26 +42,19 @@ end
 function applyCC(fileName)
     input_im = double(imread(fileName));
     
-    [wR,wG,wB,out1]=general_cc(input_im,0,1,0);
+    [wR,wG,wB,out1]=shades_of_grey(input_im,1);
     imwrite(uint8(out1),strcat("gw-", fileName));
     
-    [wR,wG,wB,out2]=general_cc(input_im,0,-1,0);
+    [wR,wG,wB,out2]=general_cc(input_im,-1);
     imwrite(uint8(out2),strcat("mrgb-", fileName));
     
-    mink_norm=5;    % any number between 1 and infinity
-    [wR,wG,wB,out3]=general_cc(input_im,0,mink_norm,0);
+    p=5;    % any number between 1 and infinity
+    [wR,wG,wB,out3]=general_cc(input_im,p);
     imwrite(uint8(out3),strcat("sog-", fileName));
     
-    mink_norm=5;    % any number between 1 and infinity
-    sigma=2;        % sigma 
-    diff_order=1;   % differentiation order (1 or 2)
-    [wR,wG,wB,out4]=general_cc(input_im,diff_order,mink_norm,sigma);
-    imwrite(uint8(out4),strcat("ge-", fileName));
-end
-    
-function transImg = applyLut(imgPath, lutPath)
-    img = imread(imgPath);
-    lut = dlmread(lutPath, ' ', 8, 0);
-    [img_lut] = imlut(img, lut, '3D', 'standard');
-    imshow(img_lut);
+%     mink_norm=5;    % any number between 1 and infinity
+%     sigma=2;        % sigma 
+%     diff_order=1;   % differentiation order (1 or 2)
+%     [wR,wG,wB,out4]=general_cc(input_im,diff_order,mink_norm,sigma);
+%     imwrite(uint8(out4),strcat("ge-", fileName));
 end
