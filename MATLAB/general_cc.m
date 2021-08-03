@@ -89,6 +89,6 @@ else                    %minkowski-norm is infinit: Max-algorithm
     white_G=white_G/som;
     white_B=white_B/som;
 end
-output_data(:,:,1)=1.31 * output_data(:,:,1)/(white_R*sqrt(3));
+output_data(:,:,1)=output_data(:,:,1)/(white_R*sqrt(3));
 output_data(:,:,2)=output_data(:,:,2)/(white_G*sqrt(3));
-output_data(:,:,3)=0.87 * output_data(:,:,3)/(white_B*sqrt(3));
+output_data(:,:,3)=output_data(:,:,3)/(white_B*sqrt(3));
