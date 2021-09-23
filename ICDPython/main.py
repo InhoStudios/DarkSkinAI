@@ -11,13 +11,23 @@ payload = {"client_id": credentials.client_id,
            "scope": scope,
            "grant_type": grant_type}
 
+def indexDescendants(entity, indentationLevel):
+    entityTitle = entity['title']
+    returnString = entityTitle + "\n"
+    indent = "    "
+    descendants = entity['descendants']
+    for descendant in descendants:
+        returnString = returnString + indent * indentationLevel + indexDescendants(descendant, indentationLevel + 1)
+    return returnString
+
 if __name__ == '__main__':
     r = requests.post(token_endpoint, data=payload, verify=False).json();
     token = r['access_token']
     useFlexisearch = 'true'
-    query = 'psoriasis'
+    query = 'eczema'
+    flatResults = 'false'
 
-    uri = f'https://id.who.int/icd/entity/search?q={query}&useFlexisearch={useFlexisearch}'
+    uri = f'https://id.who.int/icd/entity/search?q={query}&useFlexisearch={useFlexisearch}&flatResults={flatResults}'
 
     headers = {'Authorization': 'Bearer ' + token,
                'Accept': 'application/json',
@@ -33,7 +43,12 @@ if __name__ == '__main__':
 
     r_dict = json.loads(r.text)
 
+    titles = [];
+
+    str = ""
+
     for entity in r_dict['destinationEntities']:
-        print(entity)
-        print(entity['id'])
-        break
+        str = str + indexDescendants(entity, 1)
+        titles = str.split("\n")
+
+    print(str)
